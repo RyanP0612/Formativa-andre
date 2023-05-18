@@ -1,0 +1,81 @@
+create database relatorioHogwarts;
+use relatorioHogwarts;
+create table equipment(
+id bigint not null auto_increment,
+name text not null,
+amount bigint not null,
+primary key(id)
+);
+
+create table local(
+id bigint not null auto_increment,
+name varchar(75) not null,
+block enum('A','B', 'C', 'D') not null,
+limitation bigint not null,
+primary key(id)
+); 
+
+create table equipLocal(
+id bigint not null auto_increment,
+equipmentFK bigint not null,
+localFK bigint not null,
+primary key(id),
+foreign key(equipmentFK) references equipment(id),
+foreign key(localFK) references local(id)
+);
+
+create table event(
+id bigint not null auto_increment,
+localFK bigint not null,
+evento varchar(150) not null,
+data date not null,
+inicio time not null,
+fim time not null,
+startCheckIn datetime not null,
+endCheckIn datetime not null,
+responsavel varchar(150) not null,
+numeroParticip bigint,
+primary key(id),
+foreign key(localFK) references local(id)
+);
+
+create table permissions(
+id bigint not null auto_increment,
+permission enum('Admin','Gestor','Usuario','Visitante'),
+description varchar(150) not null,
+primary key(id)
+);
+create table occupation(
+id bigint not null auto_increment,
+name varchar(75) not null,
+description varchar(100),
+primary key(id)
+);
+create table users(
+id bigint not null auto_increment,
+name varchar(150) not null,
+email varchar(120) not null,
+occupationFK bigint not null,
+dob date not null,
+dos date not null,
+permissionsFK bigint not null,
+gender enum('M', 'F'),
+cpf varchar(11) not null,
+primary key(id),
+foreign key(permissionsFK) references permissions(id),
+foreign key(occupationFK) references occupation(id)
+);
+
+create table checkIn(
+id bigint not null auto_increment,
+usersFK bigint not null,
+eventFK bigint not null,
+dateScheduled date not null,
+ticket bigint not null,
+comment text,
+primary key(id),
+foreign key(usersFK) references users(id),
+foreign key(eventFK) references event(id)
+);
+
+André me dá um 100 por favor!!!
